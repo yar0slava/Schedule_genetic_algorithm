@@ -61,9 +61,9 @@ public class Class {
         return classroom;
     }
 
-    public void setClassroom(Classroom classroom) {
-        this.classroom = classroom;
-    }
+//    public void setClassroom(Classroom classroom) {
+//        this.classroom = classroom;
+//    }
 
     @Override
     public String toString() {

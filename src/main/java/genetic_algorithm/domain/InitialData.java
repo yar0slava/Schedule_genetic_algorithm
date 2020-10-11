@@ -12,6 +12,31 @@ public class InitialData {
     private ArrayList<Group> groups;
     private int numberOfClasses = 0;
     public InitialData() { initialize(); }
+
+    public int getNumberOfClasses() {
+        return numberOfClasses;
+    }
+
+    public ArrayList<Classroom> getClassrooms() {
+        return classrooms;
+    }
+
+    public ArrayList<Lecturer> getLecturers() {
+        return lecturers;
+    }
+
+    public ArrayList<Discipline> getDisciplines() {
+        return disciplines;
+    }
+
+    public ArrayList<ClassTime> getClassTimes() {
+        return classTimes;
+    }
+
+    public ArrayList<Group> getGroups() {
+        return groups;
+    }
+
     private InitialData initialize() {
         Classroom room1 = new Classroom("R1",25);
 
