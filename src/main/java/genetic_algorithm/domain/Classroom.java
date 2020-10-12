@@ -2,14 +2,6 @@ package genetic_algorithm.domain;
 
 public class Classroom {
 
-    public String getId() {
-        return id;
-    }
-
-    public Integer getCapacity() {
-        return capacity;
-    }
-
     String id;
     Integer capacity;
 
@@ -18,7 +10,13 @@ public class Classroom {
         this.capacity = capacity;
     }
 
+    public String getId() {
+        return id;
+    }
 
+    public Integer getCapacity() {
+        return capacity;
+    }
 
     @Override
     public String toString() {

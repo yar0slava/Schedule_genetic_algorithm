@@ -1,6 +1,7 @@
 package genetic_algorithm.domain;
 
 public class ClassTime {
+
     String id;
     String time;
 
