@@ -15,6 +15,38 @@ public class Discipline {
         this.lecturers = lecturers;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public ArrayList<Group> getGroups() {
+        return groups;
+    }
+
+    public void setGroups(ArrayList<Group> groups) {
+        this.groups = groups;
+    }
+
+    public ArrayList<Lecturer> getLecturers() {
+        return lecturers;
+    }
+
+    public void setLecturers(ArrayList<Lecturer> lecturers) {
+        this.lecturers = lecturers;
+    }
+
     @Override
     public String toString() {
         return name;
