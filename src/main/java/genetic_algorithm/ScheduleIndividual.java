@@ -43,8 +43,7 @@ public class ScheduleIndividual {
 //       ArrayList<Group> groups = data.getGroups();
 //
 //
-//        for (:
-//             ) {
+//        for (:) {
 //
 //        }
 //        for (Group group: groups ) {
