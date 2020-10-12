@@ -5,7 +5,7 @@ import genetic_algorithm.domain.Class;
 
 import java.util.ArrayList;
 
-public class ScheduleIndividual {
+public class ScheduleIndividual implements Comparable<ScheduleIndividual>{
 
     private ArrayList<Class> classes;
     private boolean isHealthSame = false;
@@ -87,6 +87,17 @@ public class ScheduleIndividual {
             }
         }
         return 1/(double)(conflicts+1);
+    }
+
+    @Override
+    public int compareTo(ScheduleIndividual o) {
+        if (this.getHealth() > o.getHealth()){
+            return -1;
+        }
+        else if (this.getHealth() > o.getHealth()) {
+            return 1;
+        }
+        return 0;
     }
 
     @Override
