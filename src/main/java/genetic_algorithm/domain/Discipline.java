@@ -3,6 +3,7 @@ package genetic_algorithm.domain;
 import java.util.ArrayList;
 
 public class Discipline {
+
     private String id;
     private String name;
     private ArrayList<Group> groups;

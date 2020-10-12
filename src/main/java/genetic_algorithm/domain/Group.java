@@ -1,9 +1,16 @@
 package genetic_algorithm.domain;
 
 public class Group {
+
     String id;
     Integer amount;
     String name;
+
+    public Group(String id, String name, Integer amount) {
+        this.id = id;
+        this.name = name;
+        this.amount = amount;
+    }
 
     public Integer getAmount() {
         return amount;
@@ -21,11 +28,4 @@ public class Group {
     public String toString() {
         return name;
     }
-
-    public Group(String id, String name, Integer amount) {
-        this.id = id;
-        this.name = name;
-        this.amount = amount;
-    }
-
 }

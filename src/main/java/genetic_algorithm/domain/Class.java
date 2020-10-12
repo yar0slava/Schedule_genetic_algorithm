@@ -1,6 +1,7 @@
 package genetic_algorithm.domain;
 
 public class Class {
+
     private Integer id;
     private Discipline discipline;
     private ClassTime classTime;
