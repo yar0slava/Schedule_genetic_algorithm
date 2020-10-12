@@ -6,15 +6,13 @@ public class Class {
     private Discipline discipline;
     private ClassTime classTime;
     private Group group;
-    private Lecturer lecturer;
     private Classroom classroom;
 
-    public Class(Integer id, Discipline discipline, ClassTime classTime, Group group, Lecturer lecturer, Classroom classroom) {
+    public Class(Integer id, Discipline discipline, ClassTime classTime, Group group, Classroom classroom) {
         this.id = id;
         this.discipline = discipline;
         this.classTime = classTime;
         this.group = group;
-        this.lecturer = lecturer;
         this.classroom = classroom;
     }
 
@@ -50,14 +48,6 @@ public class Class {
         this.group = group;
     }
 
-    public Lecturer getLecturer() {
-        return lecturer;
-    }
-
-    public void setLecturer(Lecturer lecturer) {
-        this.lecturer = lecturer;
-    }
-
     public Classroom getClassroom() {
         return classroom;
     }
@@ -72,7 +62,6 @@ public class Class {
                 "discipline=" + discipline +
                 ", classTime=" + classTime +
                 ", group=" + group +
-                ", lecturer=" + lecturer +
                 ", classroom=" + classroom +
                 '}';
     }

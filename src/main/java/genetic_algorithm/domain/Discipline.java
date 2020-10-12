@@ -7,13 +7,11 @@ public class Discipline {
     private String id;
     private String name;
     private ArrayList<Group> groups;
-    private ArrayList<Lecturer> lecturers;
 
-    public Discipline(String id, String name, ArrayList<Group> groups, ArrayList<Lecturer> lecturers) {
+    public Discipline(String id, String name, ArrayList<Group> groups) {
         this.id = id;
         this.name = name;
         this.groups = groups;
-        this.lecturers = lecturers;
     }
 
     public String getId() {
@@ -38,14 +36,6 @@ public class Discipline {
 
     public void setGroups(ArrayList<Group> groups) {
         this.groups = groups;
-    }
-
-    public ArrayList<Lecturer> getLecturers() {
-        return lecturers;
-    }
-
-    public void setLecturers(ArrayList<Lecturer> lecturers) {
-        this.lecturers = lecturers;
     }
 
     @Override
