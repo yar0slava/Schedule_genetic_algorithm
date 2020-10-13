@@ -91,13 +91,13 @@ public class ScheduleIndividual implements Comparable<ScheduleIndividual>{
 
     @Override
     public int compareTo(ScheduleIndividual o) {
-        if (this.getHealth() > o.getHealth()){
-            return -1;
-        }
-        else if (this.getHealth() > o.getHealth()) {
-            return 1;
-        }
-        return 0;
+//        if (this.getHealth() > o.getHealth()){
+//            return -1;
+//        }
+//        else if (this.getHealth() < o.getHealth()) {
+//            return 1;
+//        }
+        return  (int)(o.getHealth() - this.getHealth());
     }
 
     @Override
