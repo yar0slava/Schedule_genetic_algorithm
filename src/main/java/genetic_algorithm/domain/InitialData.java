@@ -73,7 +73,7 @@ public class InitialData {
         Group group8 = new Group("ПМ_3", "ПМ", 15,false,lecturer1);
         Group group9 = new Group("ПМ_3", "ПМ", 35,false,lecturer3);
 
-        groups = new ArrayList<Group>(Arrays.asList(group1, group2, group3));
+        groups = new ArrayList<Group>(Arrays.asList(group1, group2, group3,group4, group5, group6, group7, group8, group9));
 
         Discipline discipline1 = new Discipline("D1", "МП", new ArrayList<Group>(Arrays.asList(group1, group3,group2)));
         Discipline discipline2 = new Discipline("D2", "ООЕІ", new ArrayList<Group>(Arrays.asList(group4,group5,group6)));
