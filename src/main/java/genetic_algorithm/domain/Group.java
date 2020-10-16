@@ -38,6 +38,6 @@ public class Group {
 
     @Override
     public String toString() {
-        return name;
+        return "id: " + id;
     }
 }
