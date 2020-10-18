@@ -58,11 +58,10 @@ public class Class {
 
     @Override
     public String toString() {
-        return "Class{" +
-                "discipline=" + discipline +
-                ", classTime=" + classTime +
-                ", group=" + group +
-                ", classroom=" + classroom +
-                '}';
+        return " [" + discipline +
+                "|" + classTime +
+                "|" + group +
+                "|" + classroom +
+                ']';
     }
 }
