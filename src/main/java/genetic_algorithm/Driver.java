@@ -18,30 +18,34 @@ public class Driver {
         driver.data = new InitialData();
         driver.printAvailableData();
 
-//        System.out.println(" -- Generation Number: "+ generationNumber);
-//        System.out.printf("%2s %4s %9s %12s"," #", "Health", "Conflicts", "Classes [Class -- ClassTime -- Group -- ClassTime] " + "\n");
+        System.out.println(" -- Generation Number: "+ generationNumber);
+        System.out.printf("%1s %7s %11s %27s"," #", "Health", "Conflicts", "  Classes [Class -- ClassTime -- Group -- ClassTime -- Lecturer] " + "\n");
         GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm(driver.data);
         Population population = new Population(Driver.POPULATION_SIZE, driver.data).sortByHealth();
-//        for (ScheduleIndividual schedule: population.getScheduleIndividuals()) {
-//            System.out.println(" "+driver.scheduleNumb++ + " | " +
-//                    String.format("%.5f",schedule.getHealth())+ " | " + schedule.getConflicts() + "         |"
-//                + schedule);
-//        }
-        driver.printScheduleAsTable(population.getScheduleIndividuals().get(0), generationNumber);
+        for (ScheduleIndividual schedule: population.getScheduleIndividuals()) {
+            System.out.printf("%2s %4s %9s  %12s",driver.scheduleNumb++ + " |",
+                    String.format("%.5f",schedule.getHealth()) + " |",schedule.getConflicts() + "  |", schedule);
+            System.out.println();
+
+        }
         driver.classNumb = 1;
+
         while (population.getScheduleIndividuals().get(0).getHealth() != 1.0) {
-            System.out.println(" -- Generation Number: "+ generationNumber++);
-            System.out.printf("%2s %4s %9s %12s"," #", "Health", "Conflicts", "Classes [Class -- ClassTime -- Group -- ClassTime] " + "\n");
+            System.out.println(" -- Generation Number: "+ ++generationNumber);
+            System.out.printf("%1s %7s %11s %27s"," #", "Health", "Conflicts", "  Classes [Class -- ClassTime -- Group -- ClassTime -- Lecturer] " + "\n");
             population = geneticAlgorithm.generateEvolution(population).sortByHealth();
             driver.scheduleNumb = 0;
             for (ScheduleIndividual schedule: population.getScheduleIndividuals()) {
-                System.out.println(" "+driver.scheduleNumb++ + " | " + String.format("%.5f",schedule.getHealth())+ "  | " + schedule.getConflicts() + "         |"
-                        + schedule);
+                System.out.printf("%2s %4s %9s  %12s",driver.scheduleNumb++ + " |",
+                        String.format("%.5f",schedule.getHealth()) + " |",schedule.getConflicts() + "  |", schedule + "\n");
             }
+            System.out.println();
 
-            driver.printScheduleAsTable(population.getScheduleIndividuals().get(0), generationNumber);
             driver.classNumb = 1;
         }
+        if(population.getScheduleIndividuals().get(0).getHealth() == 1.0){
+                driver.printScheduleAsTable(population.getScheduleIndividuals().get(0), generationNumber);
+            }
 
     }
 

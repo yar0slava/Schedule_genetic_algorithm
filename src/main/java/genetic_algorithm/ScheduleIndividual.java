@@ -33,6 +33,7 @@ public class ScheduleIndividual implements Comparable<ScheduleIndividual> {
       return isHealthSame;
    }
 
+
    public double getHealth() {
       if (!isHealthSame) {
          health = estimateHealth();
@@ -60,7 +61,7 @@ public class ScheduleIndividual implements Comparable<ScheduleIndividual> {
       for (Discipline discipline : disciplines) {
          for (Group group : discipline.getGroups()) {
             Class cl = new Class(classId++, discipline, data.getClassTimes().get((int) (Math.random() * timeAmount)),
-                    group, data.getClassrooms().get((int) (Math.random() * roomsAmount)));
+                    group, data.getClassrooms().get((int) (Math.random() * roomsAmount)), group.getLecturer());
             classes.add(cl);
 
          }
