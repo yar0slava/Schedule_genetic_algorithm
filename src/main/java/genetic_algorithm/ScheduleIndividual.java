@@ -59,15 +59,14 @@ public class ScheduleIndividual implements Comparable<ScheduleIndividual> {
 
       for (Discipline discipline : disciplines) {
          for (Group group : discipline.getGroups()) {
-            Class cl = new Class(classId++, discipline, data.getClassTimes().get((int) Math.random() * timeAmount),
-                    group, data.getClassrooms().get((int) Math.random() * roomsAmount));
+            Class cl = new Class(classId++, discipline, data.getClassTimes().get((int) (Math.random() * timeAmount)),
+                    group, data.getClassrooms().get((int) (Math.random() * roomsAmount)));
             classes.add(cl);
 
          }
       }
       return this;
    }
-
 
    private double estimateHealth() {
       conflicts = 0;
@@ -98,13 +97,10 @@ public class ScheduleIndividual implements Comparable<ScheduleIndividual> {
 
    @Override
    public int compareTo(ScheduleIndividual o) {
-//        if (this.getHealth() > o.getHealth()){
-//            return -1;
-//        }
-//        else if (this.getHealth() < o.getHealth()) {
-//            return 1;
-//        }
-      return (int) (o.getHealth() - this.getHealth());
+        if (this.getHealth() > o.getHealth()){
+            return -1;
+        }
+      return 1;
    }
 
    @Override
@@ -116,7 +112,6 @@ public class ScheduleIndividual implements Comparable<ScheduleIndividual> {
          stringBuilder.append(cl.toString() + ", ");
       }
 
-//      stringBuilder.delete(stringBuilder.length() - 1, stringBuilder.length() - 1);
       return stringBuilder.toString();
    }
 }

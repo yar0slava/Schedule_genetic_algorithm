@@ -12,7 +12,7 @@ public class Population {
         scheduleIndividuals = new ArrayList<>(size);
 
         for (int i=0; i<size; i++){
-            scheduleIndividuals.add(i, new ScheduleIndividual(data));
+            scheduleIndividuals.add(i, new ScheduleIndividual(data).initialize());
         }
     }
 

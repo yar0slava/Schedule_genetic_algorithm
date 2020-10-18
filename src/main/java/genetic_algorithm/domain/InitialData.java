@@ -75,15 +75,16 @@ public class InitialData {
 
         groups = new ArrayList<Group>(Arrays.asList(group1, group2, group3,group4, group5, group6, group7, group8, group9));
 
-        Discipline discipline1 = new Discipline("D1", "МП", new ArrayList<Group>(Arrays.asList(group1, group3,group2)));
-        Discipline discipline2 = new Discipline("D2", "ООЕІ", new ArrayList<Group>(Arrays.asList(group4,group5,group6)));
+
+        Discipline discipline1 = new Discipline("D1", "МП", new ArrayList<Group>(Arrays.asList(group4, group3, group1)));
+        Discipline discipline2 = new Discipline("D2", "ООЕІ", new ArrayList<Group>(Arrays.asList(group4, group2)));
         Discipline discipline3 = new Discipline("D3", "ОКА", new ArrayList<Group>(Arrays.asList(group7,group8,group9)));
-        Discipline discipline4 = new Discipline("D4", "ДМ", new ArrayList<Group>(Arrays.asList(group1, group3,group2)));
-        Discipline discipline5 = new Discipline("D5", "БМТ", new ArrayList<Group>(Arrays.asList(group4,group5,group6)));
-        Discipline discipline6 = new Discipline("D6", "ЛААГ", new ArrayList<Group>(Arrays.asList(group7,group8,group9)));
+        Discipline discipline4 = new Discipline("D4", "ДМ", new ArrayList<Group>(Arrays.asList(group1, group3)));
+        Discipline discipline5 = new Discipline("D5", "БМТ", new ArrayList<Group>(Arrays.asList(group4,group5)));
+        Discipline discipline6 = new Discipline("D6", "ЛААГ", new ArrayList<Group>(Arrays.asList(group7,group8)));
 
-        disciplines = new ArrayList<Discipline>(Arrays.asList(discipline1, discipline2, discipline3, discipline4,discipline5,discipline6));
-
+        //disciplines = new ArrayList<Discipline>(Arrays.asList(discipline1, discipline2, discipline3, discipline4,discipline5,discipline6));
+       disciplines = new ArrayList<Discipline>(Arrays.asList(discipline1, discipline2, discipline3));
         disciplines.forEach(x -> numberOfClasses += x.getGroups().size());
         return this;
     }

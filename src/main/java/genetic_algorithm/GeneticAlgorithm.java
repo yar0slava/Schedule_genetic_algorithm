@@ -20,8 +20,8 @@ public class GeneticAlgorithm {
     }
 
     ScheduleIndividual crossoverSchedule(ScheduleIndividual individual1, ScheduleIndividual individual2) {
-//        ScheduleIndividual crossoverRes = new ScheduleIndividual(data).initialize();
-        ScheduleIndividual crossoverRes = new ScheduleIndividual(data);
+        ScheduleIndividual crossoverRes = new ScheduleIndividual(data).initialize();
+//        ScheduleIndividual crossoverRes = new ScheduleIndividual(data);
 
         for (int i = 0; i < crossoverRes.getClasses().size(); i++) {
             if (Math.random() > CROSSOVER_SCHEDULE_PROBABILITY) {
