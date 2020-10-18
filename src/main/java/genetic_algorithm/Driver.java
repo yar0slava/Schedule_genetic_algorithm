@@ -52,27 +52,19 @@ public class Driver {
     private void printScheduleAsTable(ScheduleIndividual schedule, int generation){
         ArrayList<Class> classes = schedule.getClasses();
 
-        System.out.print("\n                       ");
-        System.out.println("Class # | Dept | Course (number, max # of students) | Room (Capacity) |   Instructor (Id)   |  Meeting Time (Id)");
-        System.out.print("                       ");
-        System.out.print("------------------------------------------------------");
-        System.out.println("---------------------------------------------------------------");
-
+        System.out.println(" ....... Schedule ....... ");
+        System.out.println("+-----+-----------+---------+----------+---------+-----------------------+-----------------------+");
+        System.out.printf("%3s %13s %10s %9s %8s %14s %24s", "#","Discipline", "Classroom", "Capacity", "Amount", "Time ", "Lecturer"+"\n");
+        System.out.println("+-----+-----------+---------+----------+---------+-----------------------+-----------------------+");
         for (Class classees: schedule.getClasses()) {
-            System.out.print("                       ");
-            System.out.print(String.format("  %1$02d  ", classNumb) + "  | ");
-            System.out.printf("%1$21s", classees.getDiscipline() + ")|");
-            System.out.printf("%1$21s", classees.getClassroom() + " " + classees.getClassroom().getCapacity().toString() + ")|");
-            System.out.printf("%1$21s", classees.getClassTime() + ")|");
-            System.out.printf("%1$21s", classees.getGroup() + " " + classees.getGroup().getAmount().toString() +
-                    " " + classees.getGroup().getLecturer() + ")|");
-            System.out.println("\n");
-
+            System.out.printf("%3s %12s %9s %10s %9s %20s %23s", classNumb, classees.getDiscipline(),
+                    classees.getClassroom(),classees.getClassroom().getCapacity().toString(),
+                    classees.getGroup().getAmount().toString(), classees.getClassTime(),classees.getGroup().getLecturer() );
+            System.out.println();
             classNumb++;
         }
-        if (schedule.getHealth() == 1) System.out.println("> Solution Found in "+ (generation + 1) +" generations");
-        System.out.print("-----------------------------------------------------------------------------------");
-        System.out.println("-------------------------------------------------------------------------------------");
+        if (schedule.getHealth() == 1) System.out.println("+--------- correct schedule found on "+ (generation + 1) +" generations ----------------------------------------------+");
+
     }
 
     private void printAvailableData() {
