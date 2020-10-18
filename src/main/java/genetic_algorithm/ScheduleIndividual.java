@@ -62,6 +62,7 @@ public class ScheduleIndividual implements Comparable<ScheduleIndividual> {
             Class cl = new Class(classId++, discipline, data.getClassTimes().get((int) Math.random() * timeAmount),
                     group, data.getClassrooms().get((int) Math.random() * roomsAmount));
             classes.add(cl);
+
          }
       }
       return this;
@@ -115,7 +116,7 @@ public class ScheduleIndividual implements Comparable<ScheduleIndividual> {
          stringBuilder.append(cl.toString() + ", ");
       }
 
-      stringBuilder.delete(stringBuilder.length() - 1, stringBuilder.length() - 1);
+//      stringBuilder.delete(stringBuilder.length() - 1, stringBuilder.length() - 1);
       return stringBuilder.toString();
    }
 }
