@@ -63,8 +63,6 @@ public class GeneticAlgorithm {
         Population resPopulation = new Population(population.getScheduleIndividuals().size(), data);
         ArrayList<ScheduleIndividual> schedules = resPopulation.getScheduleIndividuals();
 
-//        ???????????? check with sorted pop
-
         for (int i = 0; i < HEALTHIEST_INDIVIDUALS_NUM; i++) {
             schedules.set(i, population.getScheduleIndividuals().get(i));
         }
