@@ -7,17 +7,23 @@ public class Class {
     private ClassTime classTime;
     private Group group;
     private Classroom classroom;
+    private Lecturer lecturer;
 
-    public Class(Integer id, Discipline discipline, ClassTime classTime, Group group, Classroom classroom) {
+    public Class(Integer id, Discipline discipline, ClassTime classTime, Group group, Classroom classroom, Lecturer lecturer) {
         this.id = id;
         this.discipline = discipline;
         this.classTime = classTime;
         this.group = group;
         this.classroom = classroom;
+        this.lecturer = lecturer;
     }
 
     public Integer getId() {
         return id;
+    }
+
+    public Lecturer getLecturer() {
+        return lecturer;
     }
 
     public void setId(Integer id) {
@@ -62,6 +68,7 @@ public class Class {
                 "|" + classTime +
                 "|" + group +
                 "|" + classroom +
+                "|" + lecturer +
                 ']';
     }
 }
