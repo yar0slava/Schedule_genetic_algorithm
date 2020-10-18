@@ -9,7 +9,8 @@ public class Class {
     private Classroom classroom;
     private Lecturer lecturer;
 
-    public Class(Integer id, Discipline discipline, ClassTime classTime, Group group, Classroom classroom, Lecturer lecturer) {
+    public Class(Integer id, Discipline discipline, ClassTime classTime,
+                 Group group, Classroom classroom, Lecturer lecturer) {
         this.id = id;
         this.discipline = discipline;
         this.classTime = classTime;

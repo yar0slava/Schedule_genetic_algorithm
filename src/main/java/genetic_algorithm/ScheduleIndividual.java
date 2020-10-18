@@ -33,7 +33,6 @@ public class ScheduleIndividual implements Comparable<ScheduleIndividual> {
       return isHealthSame;
    }
 
-
    public double getHealth() {
       if (!isHealthSame) {
          health = estimateHealth();
@@ -59,7 +58,7 @@ public class ScheduleIndividual implements Comparable<ScheduleIndividual> {
       int roomsAmount = data.getClassrooms().size();
 
       for (Discipline discipline : disciplines) {
-         for (Group group : discipline.getGroups()) {
+         for (Group group : groups) {
             Class cl = new Class(classId++, discipline, data.getClassTimes().get((int) (Math.random() * timeAmount)),
                     group, data.getClassrooms().get((int) (Math.random() * roomsAmount)), group.getLecturer());
             classes.add(cl);
@@ -75,14 +74,14 @@ public class ScheduleIndividual implements Comparable<ScheduleIndividual> {
       for (Class cl : classes) {
          for (Class cl2 : classes) {
             if (cl.getId() != cl2.getId() && cl.getClassTime() == cl2.getClassTime()) {
-               if (cl.getGroup().getLecturer().getId() == cl2.getGroup().getLecturer().getId()) { // викладачі не можуть в один час різні класи
+               if (cl.getLecturer().getId() == cl2.getLecturer().getId()) { // викладачі не можуть в один час різні класи
                   conflicts++;
                }
                if (cl.getClassroom().getId() == cl2.getClassroom().getId()) { // кімнати однакові не можуть в один час різні класи мати
                   conflicts++;
                }
-               if (((cl.getGroup().getName() == cl2.getGroup().getName()) && (cl.getGroup().getIsLecture() != cl2.getGroup().getIsLecture()))
-                       || cl.getGroup().getId() == cl2.getGroup().getId()) {
+               if ( cl.getGroup().getId() == cl2.getGroup().getId() ||
+                       (cl.getGroup().getName() == cl2.getGroup().getName() && cl.getGroup().getIsLecture() != cl2.getGroup().getIsLecture()) ) {
                   // одна спеціальність не може мати практику і лекцію одночасно з одного предмету
                   conflicts++;
                }
