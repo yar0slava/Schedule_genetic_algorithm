@@ -58,7 +58,7 @@ public class ScheduleIndividual implements Comparable<ScheduleIndividual> {
       int roomsAmount = data.getClassrooms().size();
 
       for (Discipline discipline : disciplines) {
-         for (Group group : groups) {
+         for (Group group : discipline.getGroups()) {
             Class cl = new Class(classId++, discipline, data.getClassTimes().get((int) (Math.random() * timeAmount)),
                     group, data.getClassrooms().get((int) (Math.random() * roomsAmount)), group.getLecturer());
             classes.add(cl);
