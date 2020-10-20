@@ -54,17 +54,17 @@ public class Driver {
 
 
         System.out.println(" ....... Schedule ....... ");
-        System.out.println("+-----+-----------+---------+----------+---------+-----------------------+-----------------------+");
-        System.out.printf("%3s %13s %10s %9s %8s %14s %24s", "#","Discipline", "Classroom", "Capacity", "Amount", "Time ", "Lecturer"+"\n");
-        System.out.println("+-----+-----------+---------+----------+---------+-----------------------+-----------------------+");
+        System.out.println("+-----+-----------+---------+----------+---------------+---------+-----------------------+-----------------------+");
+        System.out.printf("%3s %13s %10s %9s %12s %12s %14s %24s", "#","Discipline", "Classroom", "Capacity", "Group", "Amount", "Time ", "Lecturer"+"\n");
+        System.out.println("+-----+-----------+---------+----------+---------------+---------+-----------------------+-----------------------+");
         for (Class classees: schedule.getClasses()) {
-            System.out.printf("%3s %12s %9s %10s %9s %20s %23s", classNumb, classees.getDiscipline(),
-                    classees.getClassroom(),classees.getClassroom().getCapacity().toString(),
+            System.out.printf("%3s %12s %9s %10s %16s %9s %20s %23s", classNumb, classees.getDiscipline(),
+                    classees.getClassroom(),classees.getClassroom().getCapacity().toString(), classees.getGroup().getId(),
                     classees.getGroup().getAmount().toString(), classees.getClassTime(),classees.getGroup().getLecturer() );
             System.out.println();
             classNumb++;
         }
-        if (schedule.getHealth() == 1) System.out.println("+--------- correct schedule found on "+ (generation + 1) +" generations ----------------------------------------------+");
+        if (schedule.getHealth() == 1) System.out.println("+--------- correct schedule found on "+ (generation + 1) +" generations -------------------------------------------------------------+");
     }
 
     private void printAvailableData() {
