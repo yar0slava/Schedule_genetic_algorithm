@@ -1,7 +1,8 @@
-package genetic_algorithm.domain;
+package domain;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 public class InitialData {
 
@@ -11,6 +12,7 @@ public class InitialData {
     private ArrayList<ClassTime> classTimes;
     private ArrayList<Group> groups;
     private int numberOfClasses = 0;
+    HashMap<Lecturer, ArrayList<Group>> lecturerGroups;
 
     public InitialData() {
         initialize();
@@ -40,6 +42,10 @@ public class InitialData {
         return groups;
     }
 
+    public HashMap<Lecturer, ArrayList<Group>> getLecturerGroups() {
+        return lecturerGroups;
+    }
+
     private InitialData initialize() {
         Classroom room1 = new Classroom("101", 60);
         Classroom room2 = new Classroom("103", 70);
@@ -56,8 +62,10 @@ public class InitialData {
         Classroom room13 = new Classroom("114", 60);
         Classroom room14 = new Classroom("115", 50);
 
-        classrooms = new ArrayList<Classroom>(Arrays.asList(room1, room2, room3, room4,
-                room5, room6, room7, room8, room9, room10, room11, room12, room13, room14));
+//        classrooms = new ArrayList<Classroom>(Arrays.asList(room1, room2, room3, room4,
+//                room5, room6, room7, room8, room9, room10, room11, room12, room13, room14));
+
+        classrooms = new ArrayList<Classroom>(Arrays.asList(room1, room2, room3, room4, room5, room6));
 
         ClassTime classTimeM1 = new ClassTime("СTM1", "Пн 08:30 - 09:50");
         ClassTime classTimeM2 = new ClassTime("СTM2", "Пн 10:00 - 11:20");
@@ -116,6 +124,8 @@ public class InitialData {
                 lecturer4, lecturer9, lecturer10, lecturer11, lecturer12, lecturer13,
                 lecturer14, lecturer15, lecturer16, lecturer17));
 
+        lecturerGroups = new HashMap<>();
+
         Group group1 = new Group("КН1_ВДМС_L", "КН1", 50, true, lecturer1);
         Group group2 = new Group("КН1_ВДМС_L", "КН1", 50, true, lecturer2);
         Group group3 = new Group("КН1_ВДМС_3", "КН1", 25, false, lecturer3);
@@ -125,6 +135,11 @@ public class InitialData {
         Group group6 = new Group("ІПЗ1_ВДМС_L", "ІПЗ1", 60, true, lecturer2);
         Group group7 = new Group("ІПЗ1_ВДМС_1", "ІПЗ1", 30, false, lecturer3);
         Group group8 = new Group("ІПЗ1_ВДМС_2", "ІПЗ1", 30, false, lecturer4);
+
+        lecturerGroups.put(lecturer1, new ArrayList<>(Arrays.asList(group1, group5)));
+        lecturerGroups.put(lecturer2, new ArrayList<>(Arrays.asList(group2, group6)));
+        lecturerGroups.put(lecturer3, new ArrayList<>(Arrays.asList(group3, group7)));
+        lecturerGroups.put(lecturer4, new ArrayList<>(Arrays.asList(group4, group8)));
 
         Group group10 = new Group("КН1_ДМ_L", "КН1", 50, true, lecturer10);
         Group group11 = new Group("КН1_ДМ_1", "КН1", 25, false, lecturer10);
@@ -143,10 +158,18 @@ public class InitialData {
         Group group21 = new Group("ІПЗ1_ЛААГ_2", "ІПЗ1", 20, false, lecturer11);
         Group group22 = new Group("ІПЗ1_ЛААГ_3", "ІПЗ1", 20, false, lecturer11);
 
+        lecturerGroups.put(lecturer9, new ArrayList<>(Arrays.asList(group16, group17, group18, group19, group20)));
+        lecturerGroups.put(lecturer10, new ArrayList<>(Arrays.asList(group10, group11, group12)));
+        lecturerGroups.put(lecturer11, new ArrayList<>(Arrays.asList(group15, group21, group22)));
+
+
         Group group23 = new Group("ІПЗ1_ОДМ_L", "ІПЗ1", 60, true, lecturer13);
         Group group24 = new Group("ІПЗ1_ОДМ_1", "ІПЗ1", 20, false, lecturer13);
         Group group25 = new Group("ІПЗ1_ОДМ_2", "ІПЗ1", 20, false, lecturer12);
         Group group26 = new Group("ІПЗ1_ОДМ_3", "ІПЗ1", 20, false, lecturer12);
+
+        lecturerGroups.put(lecturer12, new ArrayList<>(Arrays.asList(group25, group26)));
+        lecturerGroups.put(lecturer13, new ArrayList<>(Arrays.asList(group13, group14, group23, group24)));
 
         Group group27 = new Group("КН1_МП_L", "КН1", 50, true, lecturer14);
         Group group28 = new Group("КН1_МП_1", "КН1", 10, false, lecturer16);
@@ -155,12 +178,18 @@ public class InitialData {
         Group group31 = new Group("КН1_МП_4", "КН1", 10, false, lecturer15);
         Group group32 = new Group("КН1_МП_5", "КН1", 10, false, lecturer16);
 
+        lecturerGroups.put(lecturer14, new ArrayList<>(Arrays.asList(group27)));
+        lecturerGroups.put(lecturer15, new ArrayList<>(Arrays.asList(group29, group31)));
+        lecturerGroups.put(lecturer16, new ArrayList<>(Arrays.asList(group28, group30, group32)));
+
         Group group33 = new Group("КН1_ООЕІ_L", "КН1", 50, true, lecturer17);
         Group group34 = new Group("КН1_ООЕІ_1", "КН1", 10, false, lecturer17);
         Group group35 = new Group("КН1_ООЕІ_2", "КН1", 10, false, lecturer17);
         Group group36 = new Group("КН1_ООЕІ_3", "КН1", 10, false, lecturer17);
         Group group37 = new Group("КН1_ООЕІ_4", "КН1", 10, false, lecturer17);
         Group group38 = new Group("КН1_ООЕІ_5", "КН1", 10, false, lecturer17);
+
+        lecturerGroups.put(lecturer17, new ArrayList<>(Arrays.asList(group33, group34, group35, group36, group37, group38)));
 
         groups = new ArrayList<Group>(Arrays.asList(group1, group2, group3, group4, group5, group6, group7, group8,
                 group10, group11, group12, group13, group14, group15, group16, group17, group18, group19,

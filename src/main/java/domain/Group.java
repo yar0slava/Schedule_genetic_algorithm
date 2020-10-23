@@ -1,11 +1,13 @@
-package genetic_algorithm.domain;
+package domain;
+
+import java.util.Objects;
 
 public class Group {
 
     String id; //КН_МП1 КН_МП2, ід кожної групи предмету для практики, для лекції ід=L
     Boolean isLecture;
     Integer amount;
-    String name; //КН_МП, спеціальність + предмет
+    String name; //КН, спеціальність
     Lecturer lecturer;
 
     public Group(String id, String name, Integer amount, Boolean isLecture, Lecturer lecturer) {
@@ -34,6 +36,22 @@ public class Group {
 
     public String getName() {
         return name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Group group = (Group) o;
+        return id.equals(group.id) &&
+                isLecture.equals(group.isLecture) &&
+                name.equals(group.name) &&
+                lecturer.equals(group.lecturer);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, isLecture, name, lecturer);
     }
 
     @Override
