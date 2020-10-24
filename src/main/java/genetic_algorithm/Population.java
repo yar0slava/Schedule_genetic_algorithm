@@ -1,6 +1,6 @@
 package genetic_algorithm;
 
-import genetic_algorithm.domain.InitialData;
+import domain.InitialData;
 
 import java.util.ArrayList;
 

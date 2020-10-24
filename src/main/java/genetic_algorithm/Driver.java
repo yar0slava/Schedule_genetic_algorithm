@@ -1,7 +1,7 @@
 package genetic_algorithm;
 
-import genetic_algorithm.domain.*;
-import genetic_algorithm.domain.Class;
+import domain.*;
+import domain.Class;
 
 import java.util.ArrayList;
 

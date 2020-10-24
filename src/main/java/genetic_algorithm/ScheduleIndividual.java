@@ -1,9 +1,9 @@
 package genetic_algorithm;
 
-import genetic_algorithm.domain.Discipline;
-import genetic_algorithm.domain.Group;
-import genetic_algorithm.domain.InitialData;
-import genetic_algorithm.domain.Class;
+import domain.Discipline;
+import domain.Group;
+import domain.InitialData;
+import domain.Class;
 
 import java.util.ArrayList;
 
@@ -81,8 +81,9 @@ public class ScheduleIndividual implements Comparable<ScheduleIndividual> {
                   conflicts++;
                }
                if ( cl.getGroup().getId() == cl2.getGroup().getId() ||
-                       (cl.getGroup().getName() == cl2.getGroup().getName() && cl.getGroup().getIsLecture() != cl2.getGroup().getIsLecture()) ) {
+                       (cl.getGroup().getName() == cl2.getGroup().getName() && ! (!cl.getGroup().getIsLecture() &&  !cl2.getGroup().getIsLecture())) ) {
                   // одна спеціальність не може мати практику і лекцію одночасно з одного предмету
+                  // і одна спеціальність не може декілька лекцій одночасно
                   conflicts++;
                }
             }
