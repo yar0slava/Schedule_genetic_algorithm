@@ -1,4 +1,4 @@
-package genetic_algorithm.domain;
+package domain;
 
 public class Classroom {
 
