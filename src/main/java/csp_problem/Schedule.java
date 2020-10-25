@@ -1,20 +1,17 @@
 package csp_problem;
 
+import com.sun.deploy.cache.BaseLocalApplicationProperties;
 import domain.*;
 
 import java.util.*;
 
 public class Schedule {
 
-//    public static void main(String[] args) {
-//        InitialData data = new InitialData();
-//        Schedule schedule = new Schedule(data);
-//        schedule.initialize(data);
-//    }
-
     InitialData data;
     HashMap<Class, Value> schedule;
     HashMap<Class, ArrayList<Value>> remainingClasses;
+
+    static Class testClass;
 
     public Schedule(InitialData data) {
         this.data = data;
@@ -24,6 +21,14 @@ public class Schedule {
         schedule.put(cl, value);
         remainingClasses.remove(cl);
         shrinkDomainsFor(cl, value);
+    }
+
+    public static void main(String[] args) {
+        InitialData data = new InitialData();
+        Schedule schedule = new Schedule(data);
+        schedule.initialize(data);
+        System.out.println("-----------------");
+        System.out.println(schedule.leastConstrainingValue(testClass));
     }
 
     //not checked
@@ -60,13 +65,56 @@ public class Schedule {
     public ArrayList<Class> findNeighbours(Class cls){
         ArrayList<Class> classes = new ArrayList<>();
 
+        //сусіди - це ті пари, між якими можуть виникати конфлікти
         for (Class cl: remainingClasses.keySet()) {
-            if( cl.getGroupId() == cls.getGroupId() || cl.getLecturer().equals(cls.getLecturer()) ||
-                    cl.getGroupName() == cls.getGroupName()){
+            if(cl.getLecturer().equals(cls.getLecturer()) || //якщо одинакові лектори, то мають бути пари у різний час
+                    // якщо cls - це лекція, то всі лекції цієї спеціальності - сусіди
+                    (cl.getGroupName() == cls.getGroupName() && cl.getGroupIsLecture() && cls.getGroupIsLecture()) ||
+                    //якщо одинакова спеціальність, то лекції і практики мають бути в різний час
+                    // якщо cls - це лекція, то всі практики цієї спеціальності - сусіди, і навпаки
+                    (cl.getGroupName() == cls.getGroupName() && cl.getGroupIsLecture() && !(cls.getGroupIsLecture())) ||
+                    (cl.getGroupName() == cls.getGroupName() && !(cl.getGroupIsLecture()) && cls.getGroupIsLecture())){
                 classes.add(cl);
             }
         }
         return  classes;
+    }
+
+    public Value leastConstrainingValue(Class cl){
+        ArrayList<Class> classNeighbs = findNeighbours(cl); //усі сусіди класу
+        ArrayList<Value> possibleValues = remainingClasses.get(cl); //усі можливі значення, які може приймати клас
+        HashMap<Value,Integer> valuesWithRemainingForNeighbs = new HashMap<>(); // значення та його евриїстична вартість
+        Integer remainingForAllNeighbs = 0;
+
+        for(Value v : possibleValues){
+            //для кожного значення рахуємо його евриїстичну цінність
+            for(Class c : classNeighbs){
+                remainingForAllNeighbs += findHowManyValuesRemaining(v, c);
+            }
+            valuesWithRemainingForNeighbs.put(v, remainingForAllNeighbs);
+        }
+
+        // чим менше скорочень в доменах сусідів, тим краще значення
+        int maxValueInMap = (Collections.max(valuesWithRemainingForNeighbs.values()));
+        for (Map.Entry<Value, Integer> entry : valuesWithRemainingForNeighbs.entrySet()) {
+            if (entry.getValue()==maxValueInMap) {
+                return entry.getKey(); //returns the most flexible value with least constraining
+            }
+        }
+
+        return null;
+    }
+
+    public Integer findHowManyValuesRemaining (Value v, Class cl2){
+        ArrayList<Value> allValues = remainingClasses.get(cl2);
+        //з цього сусіда потрібно прибрати
+        //всі ті велю, де ЧАС стає конфліктом
+        for (Value val : allValues){
+            if(val.getClassTime() == v.getClassTime()){
+                allValues.remove(val);
+            }
+        }
+        return allValues.size();
     }
 
     public void initialize(InitialData data){
@@ -96,6 +144,8 @@ public class Schedule {
                     }
                 }
                 remainingClasses.put(cl, clValues);
+
+                testClass = cl;
             }
         }
     }

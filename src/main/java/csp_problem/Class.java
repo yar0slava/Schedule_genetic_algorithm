@@ -80,11 +80,11 @@ public class Class {
         return Objects.hash(id, group, lecturer);
     }
 
-//    @Override
-//    public String toString() {
-//        return " [" + discipline +
-//                "|" + group +
-//                "|" + lecturer +
-//                ']';
-//    }
+    @Override
+    public String toString() {
+        return " [" + discipline +
+                "|" + group +
+                "|" + lecturer +
+                ']';
+    }
 }
