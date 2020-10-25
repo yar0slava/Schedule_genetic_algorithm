@@ -109,11 +109,7 @@ public class Schedule {
         ArrayList<Value> allValues = remainingClasses.get(cl2);
         //з цього сусіда потрібно прибрати
         //всі ті велю, де ЧАС стає конфліктом
-        for (Value val : allValues){
-            if(val.getClassTime() == v.getClassTime()){
-                allValues.remove(val);
-            }
-        }
+        allValues.removeIf(val -> val.getClassTime() == v.getClassTime());
         return allValues.size();
     }
 
