@@ -1,5 +1,6 @@
 package csp_problem;
 
+import domain.Classroom;
 import domain.Discipline;
 import domain.Group;
 import domain.Lecturer;
@@ -88,4 +89,5 @@ public class Class {
                 "|" + lecturer +
                 ']';
     }
+
 }

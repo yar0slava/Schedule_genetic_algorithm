@@ -66,39 +66,40 @@ public class InitialData {
 //                room5, room6, room7, room8, room9, room10, room11, room12, room13, room14));
 
 //        classrooms = new ArrayList<Classroom>(Arrays.asList(room1, room2, room3, room4, room5, room6));
-        classrooms = new ArrayList<Classroom>(Arrays.asList(room1, room2, room3, room4, room5));
+        classrooms = new ArrayList<Classroom>(Arrays.asList(room1, room2, room3));
 
-        ClassTime classTimeM1 = new ClassTime("СTM1", "Пн 08:30 - 09:50");
-        ClassTime classTimeM2 = new ClassTime("СTM2", "Пн 10:00 - 11:20");
-        ClassTime classTimeM3 = new ClassTime("СTM3", "Пн 11:40 - 13:00");
-        ClassTime classTimeM4 = new ClassTime("СTM4", "Пн 13:30 - 14:40");
-        ClassTime classTimeM5 = new ClassTime("СTM5", "Пн 15:00 - 16:20");
+        ClassTime classTimeM1 = new ClassTime("1", "Пн 08:30 - 09:50");
+        ClassTime classTimeM2 = new ClassTime("2", "Пн 10:00 - 11:20");
+        ClassTime classTimeM3 = new ClassTime("3", "Пн 11:40 - 13:00");
+        ClassTime classTimeM4 = new ClassTime("4", "Пн 13:30 - 14:40");
+        ClassTime classTimeM5 = new ClassTime("5", "Пн 15:00 - 16:20");
 
-        ClassTime classTimeT1 = new ClassTime("СTTU1", "Вт 08:30 - 09:50");
-        ClassTime classTimeT2 = new ClassTime("СTTU2", "Вт 10:00 - 11:20");
-        ClassTime classTimeT3 = new ClassTime("СTTU3", "Вт 11:40 - 13:00");
-        ClassTime classTimeT4 = new ClassTime("СTTU4", "Вт 13:30 - 14:40");
-        ClassTime classTimeT5 = new ClassTime("СTTU5", "Вт 15:00 - 16:20");
+        ClassTime classTimeT1 = new ClassTime("6", "Вт 08:30 - 09:50");
+        ClassTime classTimeT2 = new ClassTime("7", "Вт 10:00 - 11:20");
+        ClassTime classTimeT3 = new ClassTime("8", "Вт 11:40 - 13:00");
+        ClassTime classTimeT4 = new ClassTime("9", "Вт 13:30 - 14:40");
+        ClassTime classTimeT5 = new ClassTime("10", "Вт 15:00 - 16:20");
 
-        ClassTime classTimeW1 = new ClassTime("СTW1", "Ср 08:30 - 09:50");
-        ClassTime classTimeW2 = new ClassTime("СTW2", "Ср 10:00 - 11:20");
-        ClassTime classTimeW3 = new ClassTime("СTW3", "Ср 11:40 - 13:00");
-        ClassTime classTimeW4 = new ClassTime("СTW4", "Ср 13:30 - 14:40");
-        ClassTime classTimeW5 = new ClassTime("СTW5", "Ср 15:00 - 16:20");
+        ClassTime classTimeW1 = new ClassTime("11", "Ср 08:30 - 09:50");
+        ClassTime classTimeW2 = new ClassTime("12", "Ср 10:00 - 11:20");
+        ClassTime classTimeW3 = new ClassTime("13", "Ср 11:40 - 13:00");
+        ClassTime classTimeW4 = new ClassTime("14", "Ср 13:30 - 14:40");
+        ClassTime classTimeW5 = new ClassTime("15", "Ср 15:00 - 16:20");
 
-        ClassTime classTimeTH1 = new ClassTime("СTTH1", "Чт 08:30 - 09:50");
-        ClassTime classTimeTH2 = new ClassTime("СTTH2", "Чт 10:00 - 11:20");
-        ClassTime classTimeTH3 = new ClassTime("СTTH3", "Чт 11:40 - 13:00");
-        ClassTime classTimeTH4 = new ClassTime("СTTH4", "Чт 13:30 - 14:40");
-        ClassTime classTimeTH5 = new ClassTime("СTTH5", "Чт 15:00 - 16:20");
+        ClassTime classTimeTH1 = new ClassTime("16", "Чт 08:30 - 09:50");
+        ClassTime classTimeTH2 = new ClassTime("17", "Чт 10:00 - 11:20");
+        ClassTime classTimeTH3 = new ClassTime("18", "Чт 11:40 - 13:00");
+        ClassTime classTimeTH4 = new ClassTime("19", "Чт 13:30 - 14:40");
+        ClassTime classTimeTH5 = new ClassTime("20", "Чт 15:00 - 16:20");
 
-        ClassTime classTimeF1 = new ClassTime("СTF1", "Пт 08:30 - 09:50");
-        ClassTime classTimeF2 = new ClassTime("СTF2", "Пт 10:00 - 11:20");
-        ClassTime classTimeF3 = new ClassTime("СTF3", "Пт 11:40 - 13:00");
-        ClassTime classTimeF4 = new ClassTime("СTF4", "Пт 13:30 - 14:40");
-        ClassTime classTimeF5 = new ClassTime("СTF5", "Пт 15:00 - 16:20");
+        ClassTime classTimeF1 = new ClassTime("21", "Пт 08:30 - 09:50");
+        ClassTime classTimeF2 = new ClassTime("22", "Пт 10:00 - 11:20");
+        ClassTime classTimeF3 = new ClassTime("23", "Пт 11:40 - 13:00");
+        ClassTime classTimeF4 = new ClassTime("24", "Пт 13:30 - 14:40");
+        ClassTime classTimeF5 = new ClassTime("25", "Пт 15:00 - 16:20");
 
-        classTimes = new ArrayList<ClassTime>(Arrays.asList(classTimeM1, classTimeM2, classTimeM3, classTimeM4, classTimeM5,
+        classTimes = new ArrayList<ClassTime>(Arrays.asList(
+//                classTimeM1, classTimeM2, classTimeM3, classTimeM4, classTimeM5,
                 classTimeT1, classTimeT2, classTimeT3, classTimeT4, classTimeT5,
                 classTimeW1, classTimeW2, classTimeW3, classTimeW4, classTimeW5,
                 classTimeTH1, classTimeTH2, classTimeTH3, classTimeTH4, classTimeTH5,
