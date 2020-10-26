@@ -3,6 +3,7 @@ package csp_problem;
 import domain.ClassTime;
 import domain.InitialData;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -12,65 +13,43 @@ public class CSPSolver {
       InitialData data = new InitialData();
       Schedule schedule = new Schedule(data);
       schedule.initialize(data);
-      System.out.println("-----------------");
-//        System.out.println(schedule.leastConstrainingValue(testClass));
 
-
-//        for (Class cls: schedule.remainingClasses.keySet()) {
-//            System.out.println(cls + "\n ==== values =========================================================  SIZE: "
-//                    + schedule.remainingClasses.get(cls).size());
-////            for (Value val: schedule.remainingClasses.get(cls)) {
-////                System.out.println("     " + val);
-////            }
-//        }
-
-//        for (Class cls: schedule.remainingClasses.keySet()) {
-//            System.out.println(cls);
-//        }
-//        System.out.println("POWER------------------" + '\n' + schedule.powerHeuristic());
-
-//        for (Class cls: schedule.remainingClasses.keySet()) {
-//            System.out.println(cls + "\n ==== neighbours =========================================================  SIZE: "
-//                    + schedule.findNeighbours(cls).size());
-//            for (Class cls1: schedule.findNeighbours(cls)) {
-//                System.out.println("     " + cls1);
-//            }
-//        }
-
-      Class curr = schedule.powerHeuristic();
-      HashMap<Class, Value> forwCeckSchedule = forwardCheckingSolve(schedule, curr);
-
-      ClassTime classTimeTest1 = new ClassTime("СTW1", "Ср 08:30 - 09:50");
-      ClassTime classTimeTest2 = new ClassTime("СTW2", "Ср 10:00 - 11:20");
-      ClassTime classTimeTest3 = new ClassTime("СTW3", "Ср 11:40 - 13:00");
-      ClassTime classTimeTest4 = new ClassTime("СTW4", "Ср 13:30 - 14:40");
-      ClassTime classTimeTest5 = new ClassTime("СTW5", "Ср 15:00 - 16:20");
-
-      for (Class cls : forwCeckSchedule.keySet()) {
-         Value value = forwCeckSchedule.get(cls);
-
-         if (value.getClassTime().equals(classTimeTest1)
-                 || value.getClassTime().equals(classTimeTest2)
-                 || value.getClassTime().equals(classTimeTest3)
-                 || value.getClassTime().equals(classTimeTest4)
-                 || value.getClassTime().equals(classTimeTest5)) {
-
-            System.out.printf("\n%50s %80s", cls, forwCeckSchedule.get(cls));
-         }
-//            System.out.println(cls + "   " + backtrackingSchedule.get(cls));
-      }
+      forwardCheckingLCV_MRV_Power(schedule);
    }
 
-   public static HashMap<Class, Value> forwardCheckingSolve(Schedule schedule, Class currClass) {
+   public static void forwardCheckingLCV_MRV_Power(Schedule schedule){
+      System.out.println("---Forward Checking with LCV, MRV and Power Heuristics---");
 
-      //запамятали усі велю які можна присвоїти
-      ArrayList<Value> currValues = schedule.remainingClasses.get(currClass);
-      //вибрали велю, яке присвоюємо
-      Value currValue = schedule.leastConstrainingValue(currClass);
-      //велю, які можна присвоїти, які залишились
-      currValues.remove(currValue);
-      //заесайнили
-      HashMap<Class, ArrayList<Value>> removedValues = schedule.assignValue(currClass, currValue);
+      Runtime time = Runtime.getRuntime();
+      time.gc();
+      long startTime = System.nanoTime();
+
+      Class curr = schedule.powerHeuristic();
+//      if(forwardCheckingSolveLCV_MRV_Power(schedule, curr) == null){
+      if(forwardCheckingSolveMRV_Power(schedule, curr) == null){
+         System.err.println("DOMAIN does not have enough values for all classes!");
+      }else {
+         schedule.printOutSchedule();
+      }
+
+      long stopTime = System.nanoTime();
+      long duration = stopTime - startTime;
+      double timeInMs = (double)duration/1000000;
+      long totalUsedMemory = time.totalMemory() - time.freeMemory();
+      long totalUsedMemoryInBytes = totalUsedMemory/1024;
+
+      System.out.println("Time in milliseconds: " + timeInMs);
+      System.out.println("Memory in bytes: " + totalUsedMemoryInBytes);
+
+
+   }
+
+   public static HashMap<Class, Value> forwardCheckingSolveLCV_MRV_Power(Schedule schedule, Class currClass) {
+
+      ArrayList<Value> currValues = schedule.remainingClasses.get(currClass);//запамятали усі велю які можна присвоїти
+      Value currValue = schedule.leastConstrainingValue(currClass);//вибрали велю, яке присвоюємо
+      currValues.remove(currValue);//велю, які можна присвоїти, які залишились
+      HashMap<Class, ArrayList<Value>> removedValues = schedule.assignValue(currClass, currValue);//заесайнили
 
       Class nextClass = schedule.mrvHeuristic();
       ArrayList<Value> nextValues = schedule.remainingClasses.get(nextClass);
@@ -105,10 +84,58 @@ public class CSPSolver {
          }
       }
 
-      if(schedule.remainingClasses.isEmpty()){
+      if(schedule.remainingClasses.size()==1){
+         schedule.assignValueToClass(nextClass, nextValues.get(0));
          return schedule.schedule;
       }
-      return forwardCheckingSolve(schedule, nextClass);
+      return forwardCheckingSolveLCV_MRV_Power(schedule, nextClass);
+   }
+
+   public static HashMap<Class, Value> forwardCheckingSolveMRV_Power(Schedule schedule, Class currClass) {
+
+      ArrayList<Value> currValues = schedule.remainingClasses.get(currClass);//запамятали усі велю які можна присвоїти
+      Value currValue = currValues.get(0);//вибрали велю, яке присвоюємо
+      currValues.remove(currValue);//велю, які можна присвоїти, які залишились
+      HashMap<Class, ArrayList<Value>> removedValues = schedule.assignValue(currClass, currValue);//заесайнили
+
+      Class nextClass = schedule.mrvHeuristic();
+      ArrayList<Value> nextValues = schedule.remainingClasses.get(nextClass);
+
+      boolean valueNotFound = true;
+
+      HashMap<Class, ArrayList<Value>> nextNeighbours = new HashMap<Class, ArrayList<Value>>();
+      for (Class cl: schedule.findNeighbours(nextClass)) {
+         nextNeighbours.put(cl, schedule.remainingClasses.get(cl));
+      }
+
+      while (valueNotFound) {
+
+         for (Value val : nextValues) {
+            if (isConsistent(nextNeighbours, val)) {
+               valueNotFound = false;
+               break;
+            }
+         }
+         if(!valueNotFound){
+            break;
+         }else if(currValues.isEmpty()){
+            return null;
+         }
+         else {
+            for (Class cl: removedValues.keySet()){
+               schedule.remainingClasses.get(cl).addAll(removedValues.get(cl));
+            }
+            currValue = currValues.get(0);
+            currValues.remove(currValue);
+            removedValues = schedule.assignValue(currClass, currValue);
+         }
+      }
+
+      if(schedule.remainingClasses.size()==1){
+         schedule.assignValueToClass(nextClass, nextValues.get(0));
+         return schedule.schedule;
+      }
+      return forwardCheckingSolveLCV_MRV_Power(schedule, nextClass);
    }
 
    private static boolean isConsistent(HashMap<Class, ArrayList<Value>> nextNeighbours, Value val) {
