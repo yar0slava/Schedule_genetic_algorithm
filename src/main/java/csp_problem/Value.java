@@ -44,6 +44,7 @@ public class Value {
         return "Value{" +
                 "classTime=" + classTime +
                 ", classroom=" + classroom +
+                ", capacity=" + classroom.getCapacity()+
                 '}';
     }
 }
