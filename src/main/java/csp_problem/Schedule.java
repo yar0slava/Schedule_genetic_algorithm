@@ -6,7 +6,7 @@ import java.util.*;
 public class Schedule {
 
     InitialData data;
-    HashMap<Class, Value> schedule;
+    HashMap<Class, Value> schedule = new HashMap<>();
     HashMap<Class, ArrayList<Value>> remainingClasses;
 
     static Class testClass;
@@ -20,7 +20,42 @@ public class Schedule {
         Schedule schedule = new Schedule(data);
         schedule.initialize(data);
         System.out.println("-----------------");
-        System.out.println(schedule.leastConstrainingValue(testClass));
+//        System.out.println(schedule.leastConstrainingValue(testClass));
+
+
+//        for (Class cls: schedule.remainingClasses.keySet()) {
+//            System.out.println(cls + "\n ==== values =========================================================  SIZE: "
+//                    + schedule.remainingClasses.get(cls).size());
+////            for (Value val: schedule.remainingClasses.get(cls)) {
+////                System.out.println("     " + val);
+////            }
+//        }
+
+//        for (Class cls: schedule.remainingClasses.keySet()) {
+//            System.out.println(cls);
+//        }
+//        System.out.println("POWER------------------" + '\n' + schedule.powerHeuristic());
+
+//        for (Class cls: schedule.remainingClasses.keySet()) {
+//            System.out.println(cls + "\n ==== neighbours =========================================================  SIZE: "
+//                    + schedule.findNeighbours(cls).size());
+//            for (Class cls1: schedule.findNeighbours(cls)) {
+//                System.out.println("     " + cls1);
+//            }
+//        }
+        Class toAssign = schedule.powerHeuristic();
+
+        schedule.assignValueToClass(toAssign, schedule.leastConstrainingValue(toAssign));
+
+        while(!schedule.remainingClasses.isEmpty()){
+            toAssign = schedule.mrvHeuristic();
+            schedule.assignValueToClass(toAssign, schedule.leastConstrainingValue(toAssign));
+        }
+
+        for (Class cls: schedule.schedule.keySet()) {
+            System.out.printf("\n%50s %80s", cls, schedule.schedule.get(cls));
+//            System.out.println(cls + "   " + schedule.schedule.get(cls));
+        }
     }
 
     public void assignValueToClass(Class cl, Value value){
@@ -55,7 +90,6 @@ public class Schedule {
         }
     }
 
-    //not checked
     // find Classes which domain is most influenced by assigning Value to Class cls
     public ArrayList<Class> findNeighbours(Class cls){
         ArrayList<Class> classes = new ArrayList<>();
@@ -76,7 +110,6 @@ public class Schedule {
         return  classes;
     }
 
-    //not checked
     // find Class which assigning will influence the biggest amount of other Classes domains
     // it is the Class with the biggest amount of neighbours
     public Class powerHeuristic(){
@@ -144,7 +177,7 @@ public class Schedule {
     }
 
     public Integer findHowManyValuesRemaining (Value v, Class cl2){
-        ArrayList<Value> allValues = remainingClasses.get(cl2);
+        ArrayList<Value> allValues = new ArrayList<Value>(remainingClasses.get(cl2));
         //з цього сусіда потрібно прибрати
         //всі ті вел'ю, де ЧАС стає конфліктом
         allValues.removeIf(val -> val.getClassTime() == v.getClassTime());
@@ -158,10 +191,12 @@ public class Schedule {
         for (ClassTime classTime: data.getClassTimes()) {
             for (Classroom classroom: data.getClassrooms()) {
                 Value v = new Value(classTime, classroom);
-                System.out.println(v);
+//                System.out.println(v);
                 values.add(new Value(classTime, classroom));
             }
         }
+
+        System.out.println("VALUES AMOUNT: " + values.size());
 
         int classId = 0;
         ArrayList<Discipline> disciplines = data.getDisciplines();

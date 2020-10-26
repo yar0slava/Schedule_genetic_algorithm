@@ -84,6 +84,7 @@ public class Class {
     public String toString() {
         return " [" + discipline +
                 "|" + group +
+                "|" + group.getAmount() +
                 "|" + lecturer +
                 ']';
     }

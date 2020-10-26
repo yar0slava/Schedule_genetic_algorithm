@@ -65,7 +65,8 @@ public class InitialData {
 //        classrooms = new ArrayList<Classroom>(Arrays.asList(room1, room2, room3, room4,
 //                room5, room6, room7, room8, room9, room10, room11, room12, room13, room14));
 
-        classrooms = new ArrayList<Classroom>(Arrays.asList(room1, room2, room3, room4, room5, room6));
+//        classrooms = new ArrayList<Classroom>(Arrays.asList(room1, room2, room3, room4, room5, room6));
+        classrooms = new ArrayList<Classroom>(Arrays.asList(room1, room2, room3, room4, room5));
 
         ClassTime classTimeM1 = new ClassTime("СTM1", "Пн 08:30 - 09:50");
         ClassTime classTimeM2 = new ClassTime("СTM2", "Пн 10:00 - 11:20");
