@@ -15,52 +15,6 @@ public class Schedule {
         this.data = data;
     }
 
-    public static void main(String[] args) {
-        InitialData data = new InitialData();
-        Schedule schedule = new Schedule(data);
-        schedule.initialize(data);
-        System.out.println("-----------------");
-//        System.out.println(schedule.leastConstrainingValue(testClass));
-
-
-//        for (Class cls: schedule.remainingClasses.keySet()) {
-//            System.out.println(cls + "\n ==== values =========================================================  SIZE: "
-//                    + schedule.remainingClasses.get(cls).size());
-////            for (Value val: schedule.remainingClasses.get(cls)) {
-////                System.out.println("     " + val);
-////            }
-//        }
-
-//        for (Class cls: schedule.remainingClasses.keySet()) {
-//            System.out.println(cls);
-//        }
-//        System.out.println("POWER------------------" + '\n' + schedule.powerHeuristic());
-
-//        for (Class cls: schedule.remainingClasses.keySet()) {
-//            System.out.println(cls + "\n ==== neighbours =========================================================  SIZE: "
-//                    + schedule.findNeighbours(cls).size());
-//            for (Class cls1: schedule.findNeighbours(cls)) {
-//                System.out.println("     " + cls1);
-//            }
-//        }
-
-
-
-        Class toAssign = schedule.powerHeuristic();
-
-        schedule.assignValueToClass(toAssign, schedule.leastConstrainingValue(toAssign));
-
-        while(!schedule.remainingClasses.isEmpty()){
-            toAssign = schedule.mrvHeuristic();
-            schedule.assignValueToClass(toAssign, schedule.leastConstrainingValue(toAssign));
-        }
-
-        for (Class cls: schedule.schedule.keySet()) {
-            System.out.printf("\n%50s %80s", cls, schedule.schedule.get(cls));
-//            System.out.println(cls + "   " + schedule.schedule.get(cls));
-        }
-    }
-
     public void assignValueToClass(Class cl, Value value){
         schedule.put(cl, value);
         remainingClasses.remove(cl);
@@ -92,7 +46,7 @@ public class Schedule {
             ( cl.getGroupIsLecture() || cls.getGroupIsLecture() ) ){
                 remainingClasses.get(cls).removeIf(v -> v.getClassTime().equals(time));
 
-                //othervise remove only Value value from the Class domain
+                //otherwise remove only Value value from the Class domain
             }else{
                 remainingClasses.get(cls).remove(value);
             }
@@ -152,6 +106,10 @@ public class Schedule {
         for (Class cl: remainingClasses.keySet()) {
             if( cl.getLecturer().equals(cls.getLecturer()) || //якщо одинакові лектори, то мають бути пари у різний час
                     ( cl.getGroupName().equals(cls.getGroupName()) && ( cl.getGroupIsLecture() || cls.getGroupIsLecture() ) )){
+                    // якщо cls - це лекція, то всі лекції цієї спеціальності - сусіди
+                    //якщо одинакова спеціальність, то лекції і практики мають бути в різний час
+                    // якщо cls - це лекція, то всі практики цієї спеціальності - сусіди, і навпаки
+
                 classes.add(cl);
             }
         }
@@ -262,7 +220,8 @@ public class Schedule {
         return null;
     }
 
-    public Integer findHowManyValuesRemaining (Value v, Class cl2){
+    private Integer findHowManyValuesRemaining (Value v, Class cl2){
+
         ArrayList<Value> allValues = new ArrayList<Value>(remainingClasses.get(cl2));
         //з цього сусіда потрібно прибрати
         //всі ті вел'ю, де ЧАС стає конфліктом

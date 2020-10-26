@@ -40,20 +40,21 @@ public class CSPSolver {
       Class curr = schedule.powerHeuristic();
       HashMap<Class, Value> forwCeckSchedule = forwardCheckingSolve(schedule, curr);
 
-
-
       ClassTime classTimeTest1 = new ClassTime("СTW1", "Ср 08:30 - 09:50");
       ClassTime classTimeTest2 = new ClassTime("СTW2", "Ср 10:00 - 11:20");
       ClassTime classTimeTest3 = new ClassTime("СTW3", "Ср 11:40 - 13:00");
       ClassTime classTimeTest4 = new ClassTime("СTW4", "Ср 13:30 - 14:40");
       ClassTime classTimeTest5 = new ClassTime("СTW5", "Ср 15:00 - 16:20");
+
       for (Class cls : forwCeckSchedule.keySet()) {
          Value value = forwCeckSchedule.get(cls);
+
          if (value.getClassTime().equals(classTimeTest1)
                  || value.getClassTime().equals(classTimeTest2)
                  || value.getClassTime().equals(classTimeTest3)
                  || value.getClassTime().equals(classTimeTest4)
                  || value.getClassTime().equals(classTimeTest5)) {
+
             System.out.printf("\n%50s %80s", cls, forwCeckSchedule.get(cls));
          }
 //            System.out.println(cls + "   " + backtrackingSchedule.get(cls));
@@ -118,14 +119,4 @@ public class CSPSolver {
       }
       return true;
    }
-
-   private static void backtrack() {
-   }
-
-
-   private static boolean consistent(){
-
-      return false;
-   }
-
 }
