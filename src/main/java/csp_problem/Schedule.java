@@ -1,8 +1,6 @@
 package csp_problem;
 
-import com.sun.deploy.cache.BaseLocalApplicationProperties;
 import domain.*;
-
 import java.util.*;
 
 public class Schedule {
@@ -17,12 +15,6 @@ public class Schedule {
         this.data = data;
     }
 
-    public void assignValueToClass(Class cl, Value value){
-        schedule.put(cl, value);
-        remainingClasses.remove(cl);
-        shrinkDomainsFor(cl, value);
-    }
-
     public static void main(String[] args) {
         InitialData data = new InitialData();
         Schedule schedule = new Schedule(data);
@@ -31,16 +23,32 @@ public class Schedule {
         System.out.println(schedule.leastConstrainingValue(testClass));
     }
 
+    public void assignValueToClass(Class cl, Value value){
+        schedule.put(cl, value);
+        remainingClasses.remove(cl);
+        shrinkDomainsFor(cl, value);
+    }
+
     //not checked
+    // method for shrinking domains for all Classes after cl was assigned with Value value
     private void shrinkDomainsFor(Class cl, Value value){
+        // Time from Value value
         ClassTime time = value.getClassTime();
 
         for (Class cls: remainingClasses.keySet()) {
+
+                //remove Values with Time time for Classes with the same Lecturer
             if(cl.getLecturer().equals(cls.getLecturer())){
                 remainingClasses.get(cls).removeIf(v -> v.getClassTime().equals(time));
+
+                //remove Values with Time time for Classes with the same Group name only
+                // in case if their isLecture values are not both false(this means that both have practice)
+                // two Groups with same name can't both have lectures at the same time of lecture and practice at the same time
             }else if(cl.getGroupName().equals(cls.getGroupName()) &&
-            !( !cl.getGroupIsLecture() && !cls.getGroupIsLecture() ) ){
+            ( cl.getGroupIsLecture() || cls.getGroupIsLecture() ) ){
                 remainingClasses.get(cls).removeIf(v -> v.getClassTime().equals(time));
+
+                //othervise remove only Value value from the Class domain
             }else{
                 remainingClasses.get(cls).remove(value);
             }
@@ -48,9 +56,58 @@ public class Schedule {
     }
 
     //not checked
+    // find Classes which domain is most influenced by assigning Value to Class cls
+    public ArrayList<Class> findNeighbours(Class cls){
+        ArrayList<Class> classes = new ArrayList<>();
+
+        //сусіди - це ті пари, між якими можуть виникати конфлікти
+        for (Class cl: remainingClasses.keySet()) {
+            if( cl.getLecturer().equals(cls.getLecturer()) || //якщо одинакові лектори, то мають бути пари у різний час
+                    ( cl.getGroupName().equals(cls.getGroupName()) && ( cl.getGroupIsLecture() || cls.getGroupIsLecture() ) )){
+//                    // якщо cls - це лекція, то всі лекції цієї спеціальності - сусіди
+//                    (cl.getGroupName() == cls.getGroupName() && cl.getGroupIsLecture() && cls.getGroupIsLecture()) ||
+//                    //якщо одинакова спеціальність, то лекції і практики мають бути в різний час
+//                    // якщо cls - це лекція, то всі практики цієї спеціальності - сусіди, і навпаки
+//                    (cl.getGroupName() == cls.getGroupName() && cl.getGroupIsLecture() && !(cls.getGroupIsLecture())) ||
+//                    (cl.getGroupName() == cls.getGroupName() && !(cl.getGroupIsLecture()) && cls.getGroupIsLecture())){
+                classes.add(cl);
+            }
+        }
+        return  classes;
+    }
+
+    //not checked
+    // find Class which assigning will influence the biggest amount of other Classes domains
+    // it is the Class with the biggest amount of neighbours
+    public Class powerHeuristic(){
+        // Classes with their neighbours amount
+        HashMap<Class, Integer> classNeighboursAmont = new HashMap<>();
+
+        // fill in the HashMap
+        for (Class cls: remainingClasses.keySet()) {
+            classNeighboursAmont.put(cls, findNeighbours(cls).size());
+        }
+
+        // find maximum neighbours amount
+        int maxNeighbours = Collections.max(classNeighboursAmont.values());
+
+        // find Class with maximum neighbours amount
+        for (Class cls: classNeighboursAmont.keySet()) {
+            if(classNeighboursAmont.get(cls) == maxNeighbours){
+                return  cls;
+            }
+        }
+        return null;
+    }
+
+    //not checked
+    // Minimum Remaining Value Heuristic
+    // return Class with the minimum amount of remaining values in domain(ArrayList of Values)
     public Class mrvHeuristic(){
+        // list of all remaining Classes without Values assigned
         List<Class> remClasses = new ArrayList<Class>(remainingClasses.keySet());
 
+        // sort classes by the amount of Values from their domains
         remClasses.sort(new Comparator<Class>() {
             @Override
             public int compare(Class o1, Class o2) {
@@ -58,57 +115,38 @@ public class Schedule {
             }
         });
 
+        //get the first one with the minimum domain
         return remClasses.get(0);
     }
 
-    //not checked
-    public ArrayList<Class> findNeighbours(Class cls){
-        ArrayList<Class> classes = new ArrayList<>();
-
-        //сусіди - це ті пари, між якими можуть виникати конфлікти
-        for (Class cl: remainingClasses.keySet()) {
-            if(cl.getLecturer().equals(cls.getLecturer()) || //якщо одинакові лектори, то мають бути пари у різний час
-                    // якщо cls - це лекція, то всі лекції цієї спеціальності - сусіди
-                    (cl.getGroupName() == cls.getGroupName() && cl.getGroupIsLecture() && cls.getGroupIsLecture()) ||
-                    //якщо одинакова спеціальність, то лекції і практики мають бути в різний час
-                    // якщо cls - це лекція, то всі практики цієї спеціальності - сусіди, і навпаки
-                    (cl.getGroupName() == cls.getGroupName() && cl.getGroupIsLecture() && !(cls.getGroupIsLecture())) ||
-                    (cl.getGroupName() == cls.getGroupName() && !(cl.getGroupIsLecture()) && cls.getGroupIsLecture())){
-                classes.add(cl);
-            }
-        }
-        return  classes;
-    }
-
     public Value leastConstrainingValue(Class cl){
-        ArrayList<Class> classNeighbs = findNeighbours(cl); //усі сусіди класу
+        ArrayList<Class> classNeighbours = findNeighbours(cl); //усі сусіди класу
         ArrayList<Value> possibleValues = remainingClasses.get(cl); //усі можливі значення, які може приймати клас
-        HashMap<Value,Integer> valuesWithRemainingForNeighbs = new HashMap<>(); // значення та його евриїстична вартість
-        Integer remainingForAllNeighbs = 0;
+        HashMap<Value,Integer> valuesWithRemainingForNeighbours = new HashMap<>(); // значення та його евристична вартість
+        Integer remainingForAllNeighbours = 0;
 
         for(Value v : possibleValues){
-            //для кожного значення рахуємо його евриїстичну цінність
-            for(Class c : classNeighbs){
-                remainingForAllNeighbs += findHowManyValuesRemaining(v, c);
+            //для кожного значення рахуємо його евристичну цінність
+            for(Class c : classNeighbours){
+                remainingForAllNeighbours += findHowManyValuesRemaining(v, c);
             }
-            valuesWithRemainingForNeighbs.put(v, remainingForAllNeighbs);
+            valuesWithRemainingForNeighbours.put(v, remainingForAllNeighbours);
         }
 
         // чим менше скорочень в доменах сусідів, тим краще значення
-        int maxValueInMap = (Collections.max(valuesWithRemainingForNeighbs.values()));
-        for (Map.Entry<Value, Integer> entry : valuesWithRemainingForNeighbs.entrySet()) {
+        int maxValueInMap = (Collections.max(valuesWithRemainingForNeighbours.values()));
+        for (Map.Entry<Value, Integer> entry : valuesWithRemainingForNeighbours.entrySet()) {
             if (entry.getValue()==maxValueInMap) {
                 return entry.getKey(); //returns the most flexible value with least constraining
             }
         }
-
         return null;
     }
 
     public Integer findHowManyValuesRemaining (Value v, Class cl2){
         ArrayList<Value> allValues = remainingClasses.get(cl2);
         //з цього сусіда потрібно прибрати
-        //всі ті велю, де ЧАС стає конфліктом
+        //всі ті вел'ю, де ЧАС стає конфліктом
         allValues.removeIf(val -> val.getClassTime() == v.getClassTime());
         return allValues.size();
     }
@@ -145,37 +183,4 @@ public class Schedule {
             }
         }
     }
-
-    //not checked
-    public Class powerHeuristic(){
-        HashMap<Lecturer, ArrayList<Group>> lecturerGroups = data.getLecturerGroups();
-
-        int maxGroups = 0;
-        Lecturer lectWithMaxGroups = data.getLecturers().get(0);
-
-        for (Lecturer lecturer: data.getLecturers()) {
-            if(lecturerGroups.get(lecturer).size() > maxGroups){
-                maxGroups = lecturerGroups.get(lecturer).size();
-                lectWithMaxGroups = lecturer;
-            }
-        }
-
-        int maxGroupAmount = 0;
-        Group biggestGroup = lecturerGroups.get(lectWithMaxGroups).get(0);
-
-        for (Group group: lecturerGroups.get(lectWithMaxGroups)) {
-            if(group.getAmount() > maxGroupAmount){
-                maxGroupAmount = group.getAmount();
-                biggestGroup = group;
-            }
-        }
-
-        for (Class cl: remainingClasses.keySet()) {
-            if(cl.getGroup().equals(biggestGroup)){
-                return cl;
-            }
-        }
-        return null;
-    }
-
 }
