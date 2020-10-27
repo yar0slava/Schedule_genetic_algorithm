@@ -62,11 +62,9 @@ public class InitialData {
         Classroom room13 = new Classroom("114", 60);
         Classroom room14 = new Classroom("115", 50);
 
-//        classrooms = new ArrayList<Classroom>(Arrays.asList(room1, room2, room3, room4,
-//                room5, room6, room7, room8, room9, room10, room11, room12, room13, room14));
+//        classrooms = new ArrayList<Classroom>(Arrays.asList(room1, room2, room3, room4, room5, room6, room7, room8, room9, room10, room11, room12, room13, room14));
 
-//        classrooms = new ArrayList<Classroom>(Arrays.asList(room1, room2, room3, room4, room5, room6));
-        classrooms = new ArrayList<Classroom>(Arrays.asList(room1, room2, room3));
+        classrooms = new ArrayList<Classroom>(Arrays.asList(room1, room2, room3, room4));
 
         ClassTime classTimeM1 = new ClassTime("1", "Пн 08:30 - 09:50");
         ClassTime classTimeM2 = new ClassTime("2", "Пн 10:00 - 11:20");
@@ -100,7 +98,7 @@ public class InitialData {
 
         classTimes = new ArrayList<ClassTime>(Arrays.asList(
 //                classTimeM1, classTimeM2, classTimeM3, classTimeM4, classTimeM5,
-                classTimeT1, classTimeT2, classTimeT3, classTimeT4, classTimeT5,
+//                classTimeT1, classTimeT2, classTimeT3, classTimeT4, classTimeT5,
                 classTimeW1, classTimeW2, classTimeW3, classTimeW4, classTimeW5,
                 classTimeTH1, classTimeTH2, classTimeTH3, classTimeTH4, classTimeTH5,
                 classTimeF1, classTimeF2, classTimeF3, classTimeF4, classTimeF5));
@@ -218,7 +216,6 @@ public class InitialData {
 
         disciplines = new ArrayList<Discipline>(Arrays.asList(discipline1,
                 discipline2, discipline3, discipline4,discipline5,discipline6, discipline7, discipline8));
-//        disciplines = new ArrayList<Discipline>(Arrays.asList(discipline1, discipline2, discipline3));
 
         for (Discipline discipline: disciplines) {
             numberOfClasses += discipline.getGroups().size();
