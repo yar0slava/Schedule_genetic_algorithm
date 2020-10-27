@@ -30,7 +30,6 @@ public class Schedule {
       return shrinkDomains(cl, value);
    }
 
-   //not checked
    // method for shrinking domains for all Classes after cl was assigned with Value value
    private void shrinkDomainsFor(Class cl, Value value) {
       // Time from Value value
@@ -213,6 +212,7 @@ public class Schedule {
       return null;
    }
 
+   //for neighbors
    private Integer findHowManyValuesRemaining(Value v, Class cl2) {
       ArrayList<Value> allValues = new ArrayList<Value>(remainingClasses.get(cl2));
       //remove all values where TIME is conflict
@@ -222,7 +222,6 @@ public class Schedule {
 
    public static Integer howManyValuesRemaining(ArrayList<Value> allValues, Value v) {
       ArrayList<Value> allValuesCopy = new ArrayList<Value>(allValues);
-      //remove all values where TIME is conflict
       allValuesCopy.removeIf(val -> val.getClassTime() == v.getClassTime());
       return allValuesCopy.size();
    }
