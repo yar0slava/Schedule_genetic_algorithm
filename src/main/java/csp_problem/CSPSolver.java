@@ -17,10 +17,10 @@ public class CSPSolver {
         long startTime = System.nanoTime();
 
         Class curr = schedule.powerHeuristic();
-        System.out.println("---Constraint Propagation with LCV, MRV and Power Heuristics---");
-        if (constraintPropagationSolveLCV_MRV_Power(schedule, curr) == null) {
-//        System.out.println("---Forward Checking with LCV, MRV and Power Heuristics---");
-//        if (forwardCheckingSolveLCV_MRV_Power(schedule, curr) == null) {
+//        System.out.println("---Constraint Propagation with LCV, MRV and Power Heuristics---");
+//        if (constraintPropagationSolveLCV_MRV_Power(schedule, curr) == null) {
+        System.out.println("---Forward Checking with LCV, MRV and Power Heuristics---");
+        if (forwardCheckingSolveLCV_MRV_Power(schedule, curr) == null) {
 //        System.out.println("---Forward Checking with MRV and Power Heuristics---");
 //        if (forwardCheckingSolveMRV_Power(schedule, curr) == null) {
 //        System.out.println("---Constraint Propagation with MRV and Power Heuristics---");
