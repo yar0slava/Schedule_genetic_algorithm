@@ -14,14 +14,26 @@ public class CSPSolver {
 
         Schedule schedule = new Schedule(data);
         schedule.initialize(data);
-        forwardCheckingMRV_Power(schedule);
+//        forwardCheckingMRV_Power(schedule);
+//        constraintCheckingLCV_MRV_Power(schedule);
+        forwardCheckingLCV_MRV_Power(schedule);
+    }
 
+    public static void forwardCheckingLCV_MRV_Power(Schedule schedule) {
+        System.out.println("---Constraint Checking with LCV, MRV and Power Heuristics---");
 
+        Runtime time = Runtime.getRuntime();
+        time.gc();
+        long startTime = System.nanoTime();
 
-        Schedule schedule1 = new Schedule(data);
-        schedule1.initialize(data);
-        constraintCheckingLCV_MRV_Power(schedule1);
-//        forwardCheckingLCV_MRV_Power(schedule1);
+        Class curr = schedule.powerHeuristic();
+        if (forwardCheckingSolveLCV_MRV_Power(schedule, curr) == null) {
+            System.err.println("DOMAIN does not have enough values for all classes!");
+        } else {
+            schedule.printOutSchedule();
+        }
+
+        showStatistics(time, startTime);
     }
 
     public static void constraintCheckingLCV_MRV_Power(Schedule schedule) {
@@ -178,16 +190,9 @@ public class CSPSolver {
                 return false;
             }
         }
-
-
-//        for (Class cl : nextNeighbours.keySet()) {
-//            if (Schedule.howManyValuesRemaining(schedule.remainingClasses.get(cl), val) == 0) {
-//                return false;
-//            }
-//        }
-
         return true;
     }
+
     // всі NSW (всі класи де є конфлікту часу)
     private static Set<Class> getAllTimeRemainingClasses(Schedule schedule, Value val) {
         final Set<Class> classes = new HashSet<>();
@@ -198,7 +203,6 @@ public class CSPSolver {
         }
         return classes;
     }
-
 
     public static HashMap<Class, Value> constraintPropagationSolveLCV_MRV_Power(Schedule schedule, Class currClass) {
 
@@ -217,7 +221,7 @@ public class CSPSolver {
             nextNeighbours.put(cl, schedule.remainingClasses.get(cl));
         }
 
-        //isConsistent перевірятиме усіх сусідів усіх сусідів і тд і рекурсивно перевіряти до чого призводить есайнення конкретного велю
+        //isConsistent перевірятиме усіх сусідів усіх сусідів і тд і перевіряти до чого призводить есайнення конкретного велю
         //якщо все ок, то есайнимо
 
         while (valueNotFound) {
@@ -246,6 +250,6 @@ public class CSPSolver {
             schedule.assignValueToClass(nextClass, nextValues.get(0));
             return schedule.schedule;
         }
-        return forwardCheckingSolveLCV_MRV_Power(schedule, nextClass);
+        return constraintPropagationSolveLCV_MRV_Power(schedule, nextClass);
     }
 }
